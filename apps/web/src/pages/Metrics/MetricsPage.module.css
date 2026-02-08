@@ -29,6 +29,12 @@
   gap: 16px;
 }
 
+@media (max-width: 600px) {
+  .singleMetricChartContainer {
+    grid-template-columns: 1fr;
+  }
+}
+
 .singleMetricCard {
   display: flex;
   flex-direction: column;
@@ -53,4 +59,8 @@
   align-items: center;
   justify-content: center;
   min-height: 280px;
+}
+
+.error {
+  color: var(--mantine-color-factorial-red-6);
 }

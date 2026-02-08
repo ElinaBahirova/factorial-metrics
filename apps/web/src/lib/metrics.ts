@@ -8,6 +8,9 @@ import {
   createMetricValue,
 } from './api';
 
+const effectiveRange = (range: ChartTimeRange): Exclude<ChartTimeRange, 'custom'> =>
+  range === 'custom' ? '30d' : range;
+
 export const definitionsQueryKey = ['metrics', 'definitions'] as const;
 export const valuesQueryKey = (range: ChartTimeRange) => ['metrics', 'values', range] as const;
 export const metricByIdQueryKey = (id: string, range?: ChartTimeRange) =>
@@ -21,18 +24,18 @@ export function useMetricDefinitions() {
 }
 
 export function useMetricValues(range: ChartTimeRange) {
-  const effectiveRange = range === 'custom' ? '30d' : range;
+  const rangeKey = effectiveRange(range);
   return useQuery({
-    queryKey: valuesQueryKey(effectiveRange),
-    queryFn: () => fetchMetricValuesByRange(effectiveRange),
+    queryKey: valuesQueryKey(rangeKey),
+    queryFn: () => fetchMetricValuesByRange(rangeKey),
   });
 }
 
 export function useMetricById(id: string, range?: ChartTimeRange) {
-  const effectiveRange = range === 'custom' ? '30d' : range;
+  const rangeKey = effectiveRange(range ?? '30d');
   return useQuery({
-    queryKey: metricByIdQueryKey(id, effectiveRange),
-    queryFn: () => fetchMetricById(id, effectiveRange),
+    queryKey: metricByIdQueryKey(id, rangeKey),
+    queryFn: () => fetchMetricById(id, rangeKey),
     enabled: !!id,
   });
 }

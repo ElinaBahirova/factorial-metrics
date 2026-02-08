@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Paper, Loader, Title } from '@mantine/core';
 import { useMetricValues } from '../../lib/metrics';
 import type { ChartTimeRange } from '../../types/chart';
@@ -13,6 +13,12 @@ export function MetricsPage() {
   const [timeRange, setTimeRange] = useState<ChartTimeRange>('7d');
   const { data, isLoading, isError, error } = useMetricValues(timeRange);
   const groups = data?.data ?? [];
+  const [selectedMetrics, setSelectedMetrics] = useState<string[] | null>(null);
+
+  useEffect(() => {
+    if (isLoading || isError || selectedMetrics !== null) return;
+    setSelectedMetrics(groups.map((g) => g.metric.id));
+  }, [isLoading, isError, selectedMetrics, groups]);
 
   return (
     <main className={styles.page}>
@@ -35,22 +41,25 @@ export function MetricsPage() {
             </div>
           )}
           {isError && !isLoading && (
-            <div className={styles.loader}>
-              <span style={{ color: 'var(--color-primary)' }}>
-                {error instanceof Error ? error.message : 'Failed to load metrics'}
-              </span>
+            <div className={cn(styles.loader, styles.error)}>
+              {error instanceof Error ? error.message : 'Failed to load metrics'}
             </div>
           )}
           {!isLoading && !isError && (
             <div className={styles.chartContainer}>
-              <MetricsChart groups={groups} timeRange={timeRange} />
+              <MetricsChart
+                groups={groups}
+                timeRange={timeRange}
+                selectedMetrics={selectedMetrics ?? []}
+                onSelectMetrics={setSelectedMetrics}
+              />
               <div className={styles.singleMetricChartContainer}>
                 {groups.map((group) => (
                   <SingleMetricChart
                     key={group.metric.id}
                     metric={group}
                     timeRange={timeRange}
-                    withViewDetails={true}
+                    withViewDetails
                   />
                 ))}
               </div>

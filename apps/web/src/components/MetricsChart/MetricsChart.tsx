@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { LineChart } from "@mantine/charts";
 import type { MetricGroup } from "../../types/metric";
 import { cn } from "../../lib/utils";
@@ -31,10 +31,12 @@ type DataRow = {
 type Props = {
   groups: MetricGroup[];
   timeRange: ChartTimeRange;
+  selectedMetrics: string[];
+  onSelectMetrics: (value: string[]) => void;
   className?: string;
 };
 
-export function MetricsChart({ groups, timeRange, className }: Props) {
+export function MetricsChart({ groups, timeRange, selectedMetrics, onSelectMetrics, className }: Props) {
   if (groups.length === 0) {
     return (
       <div className={cn(styles.empty, className)}>
@@ -42,7 +44,6 @@ export function MetricsChart({ groups, timeRange, className }: Props) {
       </div>
     );
   }
-  const [selectedMetrics, setSelectedMetrics] = useState(groups.map((g) => g.metric.id));
 
   const series = useMemo(() => {
     const metrics = groups.filter((g) => selectedMetrics.includes(g.metric.id)).map((g) => g.metric);
@@ -75,7 +76,7 @@ export function MetricsChart({ groups, timeRange, className }: Props) {
   }, [groups, timeRange]);
 
   const handleSelectMetrics = (value: string[]) => {
-    setSelectedMetrics(value);
+    onSelectMetrics(value);
   };
 
   return (

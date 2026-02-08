@@ -15,7 +15,7 @@ export function createMetricsRouter(metricsService: MetricsService): Router {
   router.get('/definitions', async (_req: Request, res: Response) => {
     try {
       const definitions = await metricsService.listDefinitions();
-      res.json(definitions);
+      res.status(200).json(definitions);
     } catch (e) {
       sendServerError(res, e);
     }
@@ -28,7 +28,7 @@ export function createMetricsRouter(metricsService: MetricsService): Router {
     try {
       const definition = await metricsService.getDefinitionById(parsed.data);
       if (!definition) return sendError(res, 404, 'Metric definition not found');
-      res.json(definition);
+      res.status(200).json(definition);
     } catch (e) {
       sendServerError(res, e);
     }
@@ -39,7 +39,7 @@ export function createMetricsRouter(metricsService: MetricsService): Router {
     const range = parseRangeQuery(req.query.range);
     try {
       const { data } = await metricsService.getValuesByRange(range);
-      res.json({ data });
+      res.status(200).json({ data });
     } catch (e) {
       sendServerError(res, e);
     }
@@ -53,7 +53,7 @@ export function createMetricsRouter(metricsService: MetricsService): Router {
     try {
       const result = await metricsService.getDefinitionWithValues(parsed.data, range);
       if (!result) return sendError(res, 404, 'Metric definition not found');
-      res.json(result);
+      res.status(200).json(result);
     } catch (e) {
       sendServerError(res, e);
     }

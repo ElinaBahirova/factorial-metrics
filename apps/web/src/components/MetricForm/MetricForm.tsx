@@ -148,13 +148,7 @@ export function MetricForm() {
             mt="sm"
           />
           {createDefinition.isError && (
-            <p
-              style={{
-                color: "var(--color-primary)",
-                fontSize: "0.875rem",
-                marginTop: 8,
-              }}
-            >
+            <p className={styles.error}>
               {createDefinition.error?.message}
             </p>
           )}

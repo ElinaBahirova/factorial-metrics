@@ -5,8 +5,8 @@ import {
   Outlet,
   RouterProvider,
 } from '@tanstack/react-router';
-import { MetricsPage } from './features/metrics/MetricsPage';
-import { MetricDetailPage } from './features/metrics/MetricDetailPage';
+import { MetricsPage } from './pages/Metrics/MetricsPage';
+import { MetricDetailPage } from './pages/MetricDetail/MetricDetailPage';
 
 const rootRoute = createRootRoute({
   component: () => <Outlet />,

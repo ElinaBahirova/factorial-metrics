@@ -1,121 +1,134 @@
-# Metrics Dashboard
+# 📊 Factorial Metrics Dashboard
 
-A full-stack application to **post and visualize metrics** (timestamp, name, value) with a line chart. Metrics are persisted in a PostgreSQL database (Neon); the frontend lets you add new metrics and view them over configurable time ranges (24h, 7 days, 30 days).
+A professional, full-stack metrics dashboard built as a monorepo. This project allows users to visualize time-series data with precise controls for 24h, 7d, and 30d views.
 
-## Requirements (problem statement)
+**Live demo:** [https://factorial-metrics.onrender.com/](https://factorial-metrics.onrender.com/)
 
-- Each metric has at least: **timestamp**, **name**, and **value**.
-- Metrics are **persisted in a database**.
-- The page allows users to **post new metrics**.
-- The page contains a **line chart** in which the metrics are displayed.
+## 🚀 Quick Start
 
-This project also adds a **time range toggle** (24h, 7 days, 30 days) for the chart and is structured for clarity and maintainability.
+### Prerequisites
 
-## Tech stack
+* **Node.js** (v18+)
+* **npm** (v7+ for workspaces)
 
-- **Frontend**: React 19, Vite 7, Mantine (core, form, charts), TanStack Query, CSS modules, TypeScript.
-- **Backend**: Node.js, Express, Prisma 7, PostgreSQL (Neon). API runs on port 3001.
+### Installation & Setup
 
-## Project structure
-
-- **Monorepo** (npm workspaces):
-  - `apps/api` – Express API, Prisma, Neon Postgres.
-  - `apps/web` – React SPA (Vite).
-- **apps/web/src**:
-  - `components/` – Reusable UI (MetricForm, TimeRangeToggle, MetricsChart).
-  - `features/metrics/` – Metrics page that composes form, chart, and time range state.
-  - `lib/` – API client, TanStack Query hooks, filter helper, utils.
-  - `types/` – Shared TypeScript types (Metric, ChartTimeRange).
-
-## Prerequisites
-
-- **Node.js** 20+ and **npm** (or pnpm).
-- A **Neon** (or other Postgres) database for the API. Sign up at [neon.tech](https://neon.tech) and create a project to get a connection string.
-
-## Setup and run
-
-### 1. Install dependencies
-
-From the **project root**:
-
-```bash
-npm install
-```
-
-### 2. API (backend)
-
-1. Go to the API app and configure the database:
-
+1. **Clone the repository:**
    ```bash
-   cd apps/api
+   git clone https://github.com/ElinaBahirova/factorial-metrics.git
+   cd factorial-metrics
    ```
 
-2. Create a `.env` file (copy from `.env.example` if present) with:
-
-   ```
-   DATABASE_URL="postgresql://USER:PASSWORD@HOST/DB?sslmode=require"
-   ```
-
-   Use the connection string from your Neon project.
-
-3. Sync the database schema:
-
+2. **Install dependencies:**
    ```bash
-   npx prisma db push
+   npm install
    ```
 
-4. Start the API:
+3. **Configure environment variables:**
 
+   Create a `.env` file in `apps/api` with your Neon database URL:
+   ```text
+   DATABASE_URL="postgres://user:password@neon-host/dbname"
+   ```
+
+   Optionally set `PORT` (default: 3001).
+
+4. **Sync the database:**
    ```bash
+   cd apps/api && npx prisma db push
+   ```
+
+5. **Run the project:**
+   ```bash
+   # From the root, run both frontend and backend
    npm run dev
    ```
 
-   Or from the **project root**: `npm run api`. The API runs at **http://localhost:3001**.
+   Or run separately: `npm run api` (API at http://localhost:3001) and `npm run web` (frontend at http://localhost:5173).
 
-### 3. Web (frontend)
+   To point the frontend at another API, create `apps/web/.env` with:
+   ```text
+   VITE_API_URL=http://localhost:3001
+   ```
 
-From the **project root**:
+## 📂 Repository Structure
 
-```bash
-npm run web
+```text
+📂 factorial-metrics
+├── 📁 apps
+│   ├── 📁 api          (Express + Prisma, TypeScript)
+│   │   ├── lib/        (prisma, dateRange, aggregateMetrics, errors, middleware)
+│   │   ├── repositories/
+│   │   ├── routes/     (metrics, health)
+│   │   ├── schemas/
+│   │   ├── services/
+│   │   ├── types/
+│   │   └── prisma/
+│   └── 📁 web          (React + Mantine, Vite)
+│       └── src/
+│           ├── components/
+│           ├── features/metrics/
+│           ├── lib/
+│           └── types/
+├── 📄 package.json    (npm workspaces)
+└── 📄 README.md
 ```
 
-Or:
+## 🏗 Project Architecture
 
-```bash
-cd apps/web && npm run dev
-```
+This project is structured as a **monorepo** to keep the frontend and backend closely coupled while maintaining clear boundaries.
 
-The app is served at **http://localhost:5173** (or the port Vite shows). It talks to the API at `http://localhost:3001` by default.
+* **`apps/web`**: React frontend built with **Vite** and **Mantine UI**. Uses TanStack Router for the metrics list and metric detail page, TanStack Query for data fetching, and Mantine Charts for time-series visualization.
+* **`apps/api`**: Node.js/Express server using **Prisma 7** for database access, with a service/repository layer for clear separation of concerns.
 
-### 4. Optional: point frontend to another API
+## 🧠 Key Technical Decisions
 
-Create `apps/web/.env` and set:
+### 1. Charts: Time Scale vs. Category Scale
 
-```
-VITE_API_URL=http://localhost:3001
-```
+**Decision:** Implemented a numeric X-axis (`type="number"`) instead of the default category labels.
 
-Change the URL if your API runs elsewhere.
+* **Why:** Default category scales treat "1 minute" and "20 hours" as equal distances if they are consecutive data points. Using a time scale ensures the distance between points reflects the actual time elapsed, providing a truthful representation of data trends.
 
-## Environment variables
+### 2. UI: Factorial Design System Replication
 
-| App   | Variable       | Required | Description                          |
-| ----- | -------------- | -------- | ------------------------------------ |
-| API   | `DATABASE_URL` | Yes      | PostgreSQL connection string (Neon). |
-| Web   | `VITE_API_URL`| No       | API base URL (default: localhost:3001). |
+**Decision:** Extended the Mantine theme with a custom "Factorial" palette and specific component overrides.
 
-## What to expect
+* **Secondary Palette:** Added Teal, Blue, and Amber to distinguish multiple metrics.
+* **Interaction States:** Used `:focus-within` and parent-selector logic to ensure input labels and borders change to teal simultaneously during user focus, matching the Factorial aesthetic without using `!important`.
 
-- **Metrics** page: heading, form (name + value), time range toggle (24h / 7 days / 30 days), and a line chart.
-- **Add a metric**: fill name and value, click “Add metric”. The chart and data update; metrics are stored in the database.
-- **Change time range**: use the toggle to filter the chart to the last 24 hours, 7 days, or 30 days.
-- **Empty state**: if there are no metrics in the selected range, the chart area shows a short message.
+### 3. Date Handling: `date-fns` over `Day.js`
 
-## Scripts (root)
+**Decision:** Chose `date-fns` for its functional programming approach and superior tree-shaking capabilities.
 
-- `npm run dev` – run dev for all workspaces (api + web) if they define `dev`.
-- `npm run api` – run the API dev server (`apps/api`).
-- `npm run web` – run the web dev server (`apps/web`).
-- `npm run build` – build all apps.
-- `npm run lint` – lint the project.
+* **Why:** This keeps the frontend bundle lean by only importing the specific formatting functions needed for the dashboard.
+
+### 4. Database: Prisma 7 + Neon
+
+**Decision:** Leveraged Prisma's type-safe ORM with Neon's serverless Postgres.
+
+* **Why:** Prisma ensures the API stays maintainable with auto-generated types, while Neon allows for effortless scaling and instant branching during development.
+
+## 🛠 Tech Stack
+
+* **Frontend:** React, Mantine UI, Mantine Charts, TanStack Query, TanStack Router, date-fns.
+* **Backend:** Express, TypeScript, Prisma ORM.
+* **Database:** PostgreSQL (Neon).
+* **Deployment:** Render (API) and Vercel (Web).
+
+## 📜 Scripts (root)
+
+| Command        | Description                          |
+|----------------|--------------------------------------|
+| `npm run dev`  | Run API and web dev servers          |
+| `npm run api`  | Run API only (port 3001)             |
+| `npm run web`  | Run web app only (port 5173)         |
+| `npm run build`| Build all apps                       |
+| `npm run lint` | Lint the project                     |
+
+## 🔧 Environment Variables
+
+| App   | Variable       | Required | Description                                |
+|-------|----------------|----------|--------------------------------------------|
+| API   | `DATABASE_URL` | Yes      | PostgreSQL connection string (e.g. Neon). |
+| API   | `PORT`         | No       | Server port (default: 3001).               |
+| Web   | `VITE_API_URL` | No       | API base URL (default: http://localhost:3001). |

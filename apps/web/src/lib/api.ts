@@ -6,7 +6,7 @@ import type {
 } from '../types/metric';
 import type { ChartTimeRange } from '../types/chart';
 
-const API_BASE = import.meta.env.VITE_API_URL;
+const API_BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:3001';
 
 export async function fetchMetricDefinitions(): Promise<MetricDefinition[]> {
   const res = await fetch(`${API_BASE}/metrics/definitions`);
@@ -64,6 +64,9 @@ export async function createMetricValue(body: {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
   });
-  if (!res.ok) throw new Error('Failed to create metric value');
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    throw new Error((data as { error?: string }).error ?? 'Failed to create metric value');
+  }
   return res.json();
 }
