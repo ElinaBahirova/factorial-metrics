@@ -6,7 +6,7 @@ import type {
 } from '../types/metric';
 import type { ChartTimeRange } from '../types/chart';
 
-const API_BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:3001';
+const API_BASE = import.meta.env.VITE_API_URL;
 
 export async function fetchMetricDefinitions(): Promise<MetricDefinition[]> {
   const res = await fetch(`${API_BASE}/metrics/definitions`);
