@@ -1,0 +1,32 @@
+.chart {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--mantine-spacing-md);
+  padding: var(--mantine-spacing-md);
+  border: 1px solid var(--f-border-light);
+  border-radius: var(--mantine-radius-md);
+}
+
+.chartHeader {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mantine-spacing-xxs);
+}
+
+.title {
+  font-weight: 400;
+}
+
+/* Check icon next to selected option (SVG uses currentColor) */
+.selectOption svg {
+  color: var(--mantine-color-factorial-teal-7);
+  width: 0.75em;
+  height: 0.75em;
+}
+
+.pill {
+  background-color: rgb(from var(--mantine-color-factorial-teal-4) r g b / 0.2);
+  border: 0.5px solid var(--mantine-color-factorial-teal-4);
+  color: var(--mantine-color-factorial-teal-9);
+}

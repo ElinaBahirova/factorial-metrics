@@ -1,0 +1,13 @@
+import type { Request, Response, NextFunction } from 'express';
+
+export function errorHandler(err: unknown, _req: Request, res: Response, _next: NextFunction): void {
+  console.error(err);
+  const isProd = process.env.NODE_ENV === 'production';
+  res.status(500).json({
+    error: isProd ? 'An unexpected error occurred' : (err instanceof Error ? err.message : 'An unexpected error occurred'),
+  });
+}
+
+export function notFoundHandler(req: Request, res: Response): void {
+  res.status(404).json({ error: 'Not found', path: req.path });
+}

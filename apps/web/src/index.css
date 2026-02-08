@@ -1,0 +1,86 @@
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Color Palette */
+  /* Backgrounds */
+  --f-bg-main: var(--mantine-color-factorial-grey-0);
+  --f-bg-card: #ffffff;
+
+  /* Borders */
+  --f-border-light: var(--mantine-color-factorial-grey-2);
+  --f-border-hover: var(--mantine-color-factorial-grey-3);
+
+  /* Chart Colors (Secondary contrast) */
+  --f-chart-1: var(--mantine-color-factorial-red-4);
+  --f-chart-2: var(--mantine-color-factorial-teal-4);
+
+  /* Interaction States (Red) */
+  --f-primary-hover: var(--mantine-color-factorial-red-5);
+  --f-primary-active: var(--mantine-color-factorial-red-6);
+
+  /* Disabled State */
+  --f-disabled-bg: var(--mantine-color-factorial-grey-1);
+  --f-disabled-text: var(--mantine-color-factorial-grey-4);
+  /* Functional Colors */
+  --f-color-1: var(--mantine-color-factorial-red-4);
+  --f-color-2: var(--mantine-color-factorial-teal-4);
+  --f-color-3: var(--mantine-color-factorial-blue-4);
+  --f-color-4: var(--mantine-color-factorial-amber-4);
+
+  /* Semantic States */
+  --f-info: var(--f-color-3);
+  --f-warning: var(--f-color-4);
+  --f-success: var(--f-color-2);
+  --f-danger: var(--f-color-1);
+
+  /* Primary Text: High contrast for titles and main data points */
+  --f-text-main: var(--mantine-color-factorial-grey-9); /* #1a1a1a */
+
+  /* Secondary Text: For descriptions, labels, and sub-headers */
+  --f-text-dimmed: var(--mantine-color-factorial-grey-6); /* #717171 */
+
+  /* Tertiary Text: For helper text, timestamps on axis, and disabled states */
+  --f-text-light: var(--mantine-color-factorial-grey-4); /* #b3b3b3 */
+
+  /* Brand Text: When text needs to be in the Factorial Red (links, alerts) */
+  --f-text-brand: var(--mantine-color-factorial-red-6); /* #cf2e43 */
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}

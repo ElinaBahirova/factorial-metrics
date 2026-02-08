@@ -1,0 +1,38 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--radius, 8px);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--radius, 8px);
+  align-items: flex-end;
+}
+
+.field {
+  flex: 1;
+  min-width: 120px;
+}
+
+.submit {
+  flex-shrink: 0;
+}
+
+.selectOption[data-checked],
+.selectOption[data-combobox-selected] {
+  background-color: var(--mantine-color-factorial-teal-4);
+  color: var(--mantine-color-white);
+}
+
+.modalHeader {
+  height: fit-content;
+  min-height: fit-content;
+  padding: var(--mantine-spacing-md) var(--mantine-spacing-md) var(--mantine-spacing-xs);
+}
+
+.modalTitle {
+  font-size: var(--mantine-font-size-lg);
+  font-weight: 500;
+}

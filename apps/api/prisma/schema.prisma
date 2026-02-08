@@ -1,0 +1,25 @@
+// apps/api/prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model MetricDefinition {
+  id          String       @id @default(uuid())
+  name        String       @unique
+  description String?
+  measure     String?
+  createdAt   DateTime     @default(now())
+  values      MetricValue[]
+}
+
+model MetricValue {
+  id        String           @id @default(uuid())
+  metricId  String
+  metric    MetricDefinition @relation(fields: [metricId], references: [id], onDelete: Cascade)
+  value     Float
+  timestamp DateTime         @default(now())
+}

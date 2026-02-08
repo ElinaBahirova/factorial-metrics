@@ -1,0 +1,19 @@
+{
+  "name": "factorial-metrics-challenge",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "lint": "eslint .",
+    "dev": "npm run dev --workspaces --if-present",
+    "build": "npm run build --workspaces",
+    "api": "npm run dev -w apps/api",
+    "web": "npm run dev -w apps/web"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.2",
+    "eslint": "^9.39.2",
+    "typescript-eslint": "^8.54.0"
+  }
+}
