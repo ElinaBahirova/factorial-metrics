@@ -1,47 +1,29 @@
-# Web app — Factorial Metrics Dashboard
+# Web — Factorial Metrics Dashboard
 
-React frontend for the Factorial Metrics project. Add metrics and values, view a combined chart or per-metric charts, and drill into a single metric with time-range filters (24h, 7d, 30d).
+React frontend: metrics list with combined/per-metric charts, metric detail page with time-range filters (24h, 7d, 30d).
 
-## Tech stack
+## Key features
 
-- **React 19** + **Vite 7**
-- **Mantine** (core, form, charts) for UI and line charts
-- **TanStack Query** for data fetching and caching
-- **TanStack Router** for client-side routing (metrics list + metric detail page)
-- **date-fns** for date formatting
-- **CSS modules** for component styles
+- **Metrics list** — Form to add metrics and values; combined chart and per-metric charts.
+- **Metric detail** — Single-metric view with back navigation and time-range toggle.
+- **Charts** — Mantine Charts with numeric time axis; Factorial-themed palette (teal, blue, amber).
+
+## Stack
+
+React 19, Vite, Mantine (core, form, charts), TanStack Query, TanStack Router, date-fns, CSS modules.
 
 ## Run
 
-From the **project root**:
+From **project root:** `npm run web` (dev server on 5173).
 
-```bash
-npm run web
-```
+From this dir: `npm install` then `npm run dev`.
 
-Or from this directory:
-
-```bash
-npm install   # if not already done at root
-npm run dev
-```
-
-## Build
-
-```bash
-npm run build
-```
-
-Output is in `dist/`.
+**Build:** `npm run build` → output in `dist/`.
 
 ## Structure
 
-| Path | Description |
-|------|-------------|
-| `src/App.tsx` | Router setup (TanStack Router): `/` → metrics list, `/metrics/:metricId` → metric detail |
-| `src/components/` | MetricForm, TimeRangeToggle, MetricsChart, SingleMetricChart (CSS modules + Mantine) |
-| `src/features/metrics/` | MetricsPage (list + form + charts), MetricDetailPage (back, range, info, chart) |
-| `src/lib/` | API client, TanStack Query hooks (metrics), date formatting, `cn` util |
-| `src/types/` | Metric and chart types (MetricDefinition, MetricValue, ChartTimeRange) |
-
-Global styles and design tokens live in `src/index.css`. The Mantine theme is extended with a custom Factorial palette in `main.tsx`.
+- `src/App.tsx` — TanStack Router: `/` (metrics list), `/metrics/:metricId` (metric detail).
+- `src/components/` — MetricForm, TimeRangeToggle, MetricsChart, SingleMetricChart.
+- `src/pages/` — MetricsPage, MetricDetailPage.
+- `src/lib/` — API client, query hooks, date helpers, `cn` util.
+- `src/types/` — Metric and chart types. Theme (Factorial palette) in `main.tsx` and `src/styles/`.
